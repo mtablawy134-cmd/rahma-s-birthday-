@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -108,6 +108,580 @@
             animation: blink 1s step-end infinite;
         }
 
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .metadata-block {
+            text-align: right;
+            margin-top: 30px;
+            border-right: 2px solid var(--rose);
+            padding-right: 15px;
+        }
+
+        .metadata-line {
+            margin: 15px 0;
+            opacity: 0;
+        }
+
+        .metadata-label {
+            color: #888;
+            font-size: 1rem;
+        }
+
+        .metadata-value {
+            font-size: 1.4rem;
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .value-rose { color: var(--rose); text-shadow: 0 0 10px var(--rose); }
+        .value-green { color: #4ade80; text-shadow: 0 0 10px #4ade80; }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--rose);
+            color: var(--rose);
+            padding: 12px 30px;
+            font-family: var(--sys-font);
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 40px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 107, 139, 0.2) inset;
+            opacity: 0;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background: var(--rose);
+            color: var(--bg);
+            box-shadow: 0 0 20px var(--rose);
+        }
+
+        /* نافذة الرسالة الهولوغرامية */
+        .holo-window {
+            background: rgba(20, 0, 10, 0.6);
+            border: 1px solid rgba(255, 107, 139, 0.3);
+            border-radius: 10px;
+            padding: 40px 20px;
+            box-shadow: 0 0 30px rgba(255, 107, 139, 0.1);
+            width: 100%;
+        }
+
+        .ar-text {
+            font-family: var(--ar-font);
+            font-size: 1.6rem;
+            line-height: 1.8;
+            opacity: 0;
+            margin-bottom: 20px;
+            transition: opacity 1.5s ease;
+        }
+
+        .ar-heart {
+            font-size: 1.8rem;
+            color: var(--rose);
+            text-shadow: 0 0 15px var(--rose);
+            font-weight: bold;
+        }
+
+        .static-noise {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+            opacity: 0.15;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+            z-index: 5;
+        }
+
+        /* الإضاءة */
+        #lighting {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(255,107,139,0.15) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 3s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* نصوص النهاية */
+        .reveal-letters {
+            font-family: var(--ar-font);
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: 10px;
+            color: var(--white);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .final-hero {
+            font-size: 2.5rem;
+            font-family: var(--ar-font);
+            color: var(--rose);
+            text-shadow: 0 0 20px var(--rose);
+            margin-bottom: 10px;
+            opacity: 0;
+        }
+
+        .final-name {
+            font-size: 3.5rem;
+            font-family: var(--ar-font);
+            font-weight: bold;
+            color: var(--white);
+            opacity: 0;
+        }
+
+        .final-sub {
+            font-size: 1.3rem;
+            color: #aaa;
+            margin-top: 30px;
+            opacity: 0;
+        }
+
+        .final-brother {
+            font-size: 2.2rem;
+            font-family: var(--ar-font);
+            color: var(--rose);
+            font-weight: 700;
+            opacity: 0;
+            margin-top: 5px;
+        }
+
+        .final-quote {
+            font-family: var(--ar-font);
+            font-size: 1.4rem;
+            color: var(--white);
+            opacity: 0;
+            margin-top: 50px;
+            line-height: 1.8;
+        }
+
+        /* التعتيم النهائي */
+        #black-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: black;
+            opacity: 0;
+            z-index: 999;
+            pointer-events: none;
+            transition: opacity 4s ease;
+        }
+
+        @media (max-width: 600px) {
+            .ar-text { font-size: 1.3rem; }
+            .sys-text { font-size: 1.1rem; }
+            .metadata-value { font-size: 1.2rem; }
+            .final-hero { font-size: 2rem; }
+            .final-name { font-size: 2.8rem; }
+            .reveal-letters { font-size: 2.5rem; }
+            .final-quote { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+    <div id="lighting"></div>
+    <div id="static-overlay" class="static-noise hidden"></div>
+    
+    <div id="ui-layer">
+        <!-- المحتوى يتغير ديناميكياً -->
+    </div>
+
+    <div id="black-overlay"></div>
+
+    <script>
+        // --- دوال مساعدة ---
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+        const ui = document.getElementById('ui-layer');
+
+        // --- نظام الجسيمات (Particles) للخلفية ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        let particleMode = 0; // 0: مخفي, 1: نجوم هادئة, 2: انطلاق سريع, 3: قلوب وورود
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor(mode) {
+                this.mode = mode;
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.z = Math.random() * width; 
+                
+                if (this.mode === 1) { 
+                    this.size = Math.random() * 2;
+                    this.vx = (Math.random() - 0.5) * 0.2;
+                    this.vy = Math.random() * -0.5 - 0.1;
+                    this.alpha = Math.random() * 0.5 + 0.1;
+                    this.color = '#ffffff';
+                } else if (this.mode === 2) { 
+                    this.x = (Math.random() - 0.5) * width;
+                    this.y = (Math.random() - 0.5) * height;
+                    this.size = Math.random() * 2;
+                    this.color = '#ffffff';
+                } else if (this.mode === 3) { 
+                    this.y = height + Math.random() * 100;
+                    this.size = Math.random() * 4 + 1;
+                    this.vx = (Math.random() - 0.5) * 1;
+                    this.vy = Math.random() * -3 - 1;
+                    this.alpha = Math.random() * 0.8 + 0.2;
+                    this.isHeart = Math.random() > 0.5;
+                    this.color = Math.random() > 0.3 ? '#ff6b8b' : '#ffffff';
+                }
+            }
+
+            update() {
+                if (this.mode === 1) {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.y < 0) this.y = height;
+                    if (this.x < 0) this.x = width;
+                    if (this.x > width) this.x = 0;
+                } else if (this.mode === 2) {
+                    this.z -= 5;
+                    if (this.z <= 0) {
+                        this.z = width;
+                        this.x = (Math.random() - 0.5) * width;
+                        this.y = (Math.random() - 0.5) * height;
+                    }
+                } else if (this.mode === 3) {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.y < -50) this.reset();
+                }
+            }
+
+            draw() {
+                ctx.globalAlpha = this.alpha || 1;
+                ctx.fillStyle = this.color;
+                
+                if (this.mode === 2) {
+                    let sx = (this.x / this.z) * width + width / 2;
+                    let sy = (this.y / this.z) * height + height / 2;
+                    let r = (1 - this.z / width) * 3;
+                    ctx.beginPath();
+                    ctx.arc(sx, sy, r, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (this.mode === 3 && this.isHeart) {
+                    let s = this.size;
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.beginPath();
+                    ctx.moveTo(0, s/4);
+                    ctx.quadraticCurveTo(0, 0, s/4, 0);
+                    ctx.quadraticCurveTo(s/2, 0, s/2, s/4);
+                    ctx.quadraticCurveTo(s/2, s/2, 0, s);
+                    ctx.quadraticCurveTo(-s/2, s/2, -s/2, s/4);
+                    ctx.quadraticCurveTo(-s/2, 0, -s/4, 0);
+                    ctx.quadraticCurveTo(0, 0, 0, s/4);
+                    ctx.fill();
+                    ctx.restore();
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        function setParticleMode(mode, count) {
+            particleMode = mode;
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(mode));
+            }
+        }
+
+        function animate() {
+            if (particleMode === 2) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'; 
+            } else {
+                ctx.clearRect(0, 0, width, height);
+            }
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+
+        // --- تسلسل المشاهد ---
+
+        async function typeText(elementId, text, speed = 50) {
+            const el = document.getElementById(elementId);
+            el.style.opacity = 1;
+            el.innerHTML = '';
+            for (let i = 0; i < text.length; i++) {
+                el.innerHTML += text.charAt(i);
+                await sleep(speed);
+            }
+        }
+
+        async function sequence1_Opening() {
+            await sleep(2000); // ثانيتين صمت
+
+            ui.innerHTML = `<div id="op-text" class="sys-text blinking-cursor" style="opacity:1;"></div>`;
+            
+            await typeText('op-text', 'جاري الاتصال...', 80);
+            await sleep(1500);
+            
+            await typeText('op-text', 'جاري البحث في الخط الزمني...', 60);
+            await sleep(1500);
+            
+            await typeText('op-text', 'تم رصد إشارة عبر الزمن.', 50);
+            await sleep(1500);
+            
+            await typeText('op-text', 'استقبال رسالة واردة...', 60);
+            await sleep(2000);
+
+            ui.innerHTML = '';
+            sequence2_Discovery();
+        }
+
+        async function sequence2_Discovery() {
+            ui.classList.add('glitch');
+            setTimeout(() => ui.classList.remove('glitch'), 600);
+
+            ui.innerHTML = `
+                <div class="metadata-block">
+                    <div class="metadata-line" id="meta1">
+                        <div class="metadata-label">تاريخ الإرسال</div>
+                        <div class="metadata-value value-rose">6 يونيو 2035</div>
+                    </div>
+                    <div class="metadata-line" id="meta2">
+                        <div class="metadata-label">المرسل</div>
+                        <div class="metadata-value">رحمة</div>
+                    </div>
+                    <div class="metadata-line" id="meta3">
+                        <div class="metadata-label">العمر</div>
+                        <div class="metadata-value">25</div>
+                    </div>
+                    <div class="metadata-line" id="meta4">
+                        <div class="metadata-label">قوة الإشارة</div>
+                        <div class="metadata-value">98%</div>
+                    </div>
+                    <div class="metadata-line" id="meta5">
+                        <div class="metadata-label">الحالة</div>
+                        <div class="metadata-value value-green">تم استرجاع الرسالة بنجاح</div>
+                    </div>
+                </div>
+                <button class="btn" id="open-btn" onclick="sequence3_Message()">افتح الرسالة</button>
+            `;
+
+            for(let i=1; i<=5; i++) {
+                document.getElementById(`meta${i}`).classList.add('fade-in');
+                await sleep(600);
+            }
+            
+            await sleep(500);
+            document.getElementById('open-btn').classList.add('fade-in');
+        }
+
+        async function sequence3_Message() {
+            ui.innerHTML = '';
+            setParticleMode(1, 100); 
+            
+            ui.innerHTML = `
+                <div class="holo-window" id="holo">
+                    <div id="ar-container"></div>
+                </div>
+            `;
+            
+            const lines = [
+                "لو انتي بتقري الرسالة دي دلوقتي...",
+                "فده معناه إن عندك 16 سنة...",
+                "ممكن تكوني مستغربة إزاي رسالة جاية من المستقبل...",
+                "بس صدقيني...",
+                "في حاجات كتير حلوة مستنياكي...",
+                "أحلام هتتحقق...",
+                "أيام صعبة هتعدي...",
+                "وذكريات جميلة لسه متعاشتش...",
+                "وكل سنة هتعدي...",
+                "هتكتشفي إنك أقوى مما كنتي متخيلة...",
+                "وأجمل مما كنتي فاكرة...",
+                "وأهم مما كنتي بتتصوري..."
+            ];
+
+            const container = document.getElementById('ar-container');
+            
+            for (let line of lines) {
+                container.innerHTML = `<div class="ar-text fade-in">${line}</div>`;
+                await sleep(3500);
+            }
+
+            container.innerHTML = "";
+            await sleep(1500);
+
+            container.innerHTML = `<div class="ar-text fade-in">بس في حاجة واحدة...</div>`;
+            await sleep(2500);
+            container.innerHTML = `<div class="ar-text fade-in">حبيت أقولها لنفسي الصغيرة...</div>`;
+            await sleep(2500);
+            container.innerHTML = `<div class="ar-text ar-heart fade-in">متنسيش تفضلي بنفس القلب الجميل ده ❤️</div>`;
+            
+            await sleep(4000);
+            sequence4_Twist();
+        }
+
+        async function sequence4_Twist() {
+            setParticleMode(0, 0); 
+            document.getElementById('static-overlay').classList.remove('hidden');
+            ui.classList.add('glitch');
+            
+            ui.innerHTML = `
+                <div id="tw-1" class="sys-text" style="color:red; opacity:1; font-weight:bold;">تم اعتراض الإرسال...</div>
+                <div id="tw-2" class="sys-text blinking-cursor" style="margin-top: 20px;"></div>
+                <div id="tw-3" class="sys-text hidden" style="margin-top: 40px; color:#aaa;">تم اكتشاف رسالة ثانية مخفية.<br><br><span style="color: var(--white);">المرسل: مجهول</span></div>
+                <button class="btn hidden" id="reveal-btn" onclick="sequence5_Reveal()">كشف هوية المرسل</button>
+            `;
+
+            await sleep(1000);
+            ui.classList.remove('glitch');
+            document.getElementById('static-overlay').classList.add('hidden');
+
+            await typeText('tw-2', 'جاري استعادة البيانات المفقودة...', 40);
+            await sleep(1000);
+            document.getElementById('tw-2').innerHTML = 'جاري الاستعادة...';
+            await sleep(1000);
+            document.getElementById('tw-2').innerHTML = 'جاري الاستعادة...';
+            await sleep(1500);
+
+            document.getElementById('tw-1').classList.add('hidden');
+            document.getElementById('tw-2').classList.add('hidden');
+            
+            const tw3 = document.getElementById('tw-3');
+            tw3.classList.remove('hidden');
+            tw3.classList.add('fade-in');
+            
+            await sleep(2000);
+            const btn = document.getElementById('reveal-btn');
+            btn.classList.remove('hidden');
+            btn.classList.add('fade-in');
+        }
+
+        async function sequence5_Reveal() {
+            ui.innerHTML = `
+                <div id="letters-container" class="reveal-letters"></div>
+                <div id="identified" class="sys-text hidden" style="color:var(--rose);">تم تحديد هوية المرسل<br><br><span style="color:var(--white); font-size:2rem; font-family:var(--ar-font); font-weight:bold;">محمود</span></div>
+                <div id="final-msg" class="holo-window hidden" style="margin-top:40px;"></div>
+            `;
+
+            const letters = ['م', 'ح', 'م', 'و', 'د'];
+            const lContainer = document.getElementById('letters-container');
+            
+            for (let l of letters) {
+                lContainer.innerHTML += l;
+                await sleep(800);
+            }
+
+            await sleep(1000);
+            lContainer.classList.add('hidden');
+            
+            const identified = document.getElementById('identified');
+            identified.classList.remove('hidden');
+            identified.classList.add('fade-in');
+
+            // إضاءة وردية خافتة ودافئة
+            document.getElementById('lighting').style.opacity = 1;
+
+            await sleep(3000);
+            identified.classList.add('hidden');
+
+            const finalMsg = document.getElementById('final-msg');
+            finalMsg.classList.remove('hidden');
+
+            const lines = [
+                "يمكن انتي النهاردة اللي المفروض تاخدي هدايا...",
+                "بس الحقيقة...",
+                "أنا كمان أخدت هدية كبيرة...",
+                "يوم ما ربنا رزقني بأخت زيك...",
+                "<span style='color:var(--rose); font-weight:bold;'>كل سنة وانتي طيبة يا رحمة ❤️</span>",
+                "ثم:",
+                "ربنا يحققلك كل اللي نفسك فيه...",
+                "ويفرح قلبك...",
+                "ويحفظك من كل سوء...",
+                "ويخليكي دايمًا سبب فرحة لكل اللي حواليكي..."
+            ];
+
+            for (let line of lines) {
+                finalMsg.innerHTML = `<div class="ar-text fade-in">${line}</div>`;
+                await sleep(4000);
+            }
+
+            await sleep(2000);
+            sequence6_Ending();
+        }
+
+        async function sequence6_Ending() {
+            ui.innerHTML = '';
+            document.getElementById('lighting').style.opacity = 0;
+            
+            setParticleMode(2, 400); 
+            
+            ui.innerHTML = `
+                <div id="end-container" style="display:flex; flex-direction:column; align-items:center;">
+                    <div id="e1" class="final-hero">عيد ميلاد ١٦ سعيد</div>
+                    <div id="e2" class="final-name">رحمة ❤️</div>
+                    <div id="e3" class="final-sub">من أخوكي</div>
+                    <div id="e4" class="final-brother">محمود</div>
+                    <div id="e5" class="final-quote">بعض الهدايا لا تأتي في صناديق.<br>بعض الهدايا عبارة عن أشخاص. ❤️</div>
+                </div>
+            `;
+
+            await sleep(2000);
+            document.getElementById('e1').classList.add('fade-in');
+            await sleep(1500);
+            document.getElementById('e2').classList.add('fade-in');
+            await sleep(2000);
+            document.getElementById('e3').classList.add('fade-in');
+            await sleep(1000);
+            document.getElementById('e4').classList.add('fade-in');
+
+            await sleep(1000);
+            setParticleMode(3, 150); 
+
+            await sleep(10000);
+
+            document.getElementById('e1').style.display = 'none';
+            document.getElementById('e2').style.display = 'none';
+            document.getElementById('e3').style.display = 'none';
+            document.getElementById('e4').style.display = 'none';
+
+            document.getElementById('e5').classList.add('fade-in');
+
+            await sleep(6000);
+
+            document.getElementById('black-overlay').style.opacity = 1;
+        }
+
+        // بدء التسلسل
+        window.onload = sequence1_Opening;
+
+    </script>
+</body>
+</html>
+
+
+```
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
